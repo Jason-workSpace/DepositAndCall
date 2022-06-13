@@ -40,6 +40,11 @@ describe("HelperCenter", function () {
     await setInit();
   })
 
+  it("should revert if not owner", async function () {
+    helperId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("MyNFT:buyItem()"))
+    await expect(helperCenter.connect(accounts[1]).addHelperLogic(helperId, helperUnit.address)).to.be.revertedWith('Ownable: caller is not the owner');
+  })
+
   it("should emit HelperLogicAdded when add helper", async function () {
     helperId = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("MyNFT:buyItem()"))
     expect(await helperCenter.addHelperLogic(helperId, helperUnit.address)).to.emit(helperCenter, "HelperLogicAdded");

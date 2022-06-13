@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract HelperCenter {
+contract HelperCenter is Ownable {
     using Address for address;
 
     address public gateway;
@@ -74,15 +74,17 @@ contract HelperCenter {
         return receiver;
     }
 
-    function addHelperLogic(bytes32 _helperId, address _helper) public {
+    function addHelperLogic(bytes32 _helperId, address _helper) public onlyOwner  {
         require(helper[_helperId] == address(0), "This helper already added");
         helper[_helperId] = _helper;
         emit HelperLogicAdded(_helperId, _helper);
     }
 
     function onTokenTransfer(address from, uint256 amount, bytes memory data) public checkRunning returns (bool success) {
+
         require(gateway == msg.sender, "Only gateway can call");
         require(from != address(0), "Not right address");
+
         ExecuteDataContext memory prevContext = context;
         bytes memory callPredata;
         bytes32 helperId;
@@ -101,7 +103,8 @@ contract HelperCenter {
         // if the given token's address is correct and this function is called by
         // gateway, then there must be preBalance >= amount.
         require(preBalance >= amount, "Wrong token address encoded");
-
+        
+        //@notice do the main process
         executeSuccess = execute(helperCaller, callPredata);
 
         require(executeSuccess, "execute failed");
