@@ -2,8 +2,9 @@
 pragma solidity >= 0.8;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "hardhat/console.sol";
-abstract contract Helper {
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+abstract contract Helper is Ownable {
     using Address for address;
 
     address public gateway;
@@ -17,6 +18,7 @@ abstract contract Helper {
     address internal constant ADDRESS_DEFAULT_CONTEXT = address(type(uint160).max);
 
     event ExecuteSuccess(address indexed from, address indexed token, address target);
+    event ShouldTransferBackChanged(uint256 block, bool shouldTransferBack);
 
     struct ExecuteDataContext {
         bytes4 callId; 
@@ -70,6 +72,12 @@ abstract contract Helper {
         address receiver = context.receiver;
         if(receiver == ADDRESS_DEFAULT_CONTEXT) return address(0);
         return receiver;
+    }
+
+    function changeTransferBackSetting(bool _shouldTransferBack) public onlyOwner  {
+        require(_shouldTransferBack != shouldTransferBack, "Already set to the traget boolean value");
+        shouldTransferBack = _shouldTransferBack;
+        emit ShouldTransferBackChanged(block.number, _shouldTransferBack);
     }
 
     //@dev we shoud isContract

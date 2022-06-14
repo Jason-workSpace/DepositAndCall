@@ -21,6 +21,7 @@ contract HelperCenter is Ownable {
 
     event ExecuteSuccess(bytes32 indexed helperId, address indexed from, uint256 block);
     event HelperLogicAdded(bytes32 indexed helperId, address indexed helper);
+    event ShouldTransferBackChanged(uint256 block, bool shouldTransferBack);
 
     struct ExecuteDataContext {
         bytes4 callId;
@@ -78,6 +79,12 @@ contract HelperCenter is Ownable {
         require(helper[_helperId] == address(0), "This helper already added");
         helper[_helperId] = _helper;
         emit HelperLogicAdded(_helperId, _helper);
+    }
+
+    function changeTransferBackSetting(bool _shouldTransferBack) public onlyOwner  {
+        require(_shouldTransferBack != shouldTransferBack, "Already set to the traget boolean value");
+        shouldTransferBack = _shouldTransferBack;
+        emit ShouldTransferBackChanged(block.number, _shouldTransferBack);
     }
 
     function onTokenTransfer(address from, uint256 amount, bytes memory data) public checkRunning returns (bool success) {
