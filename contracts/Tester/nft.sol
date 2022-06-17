@@ -16,7 +16,7 @@ contract NFTItem is ERC721URIStorage {
         returns (uint256)
     {
         uint256 newItemId = _tokenIds.current();
-        IERC20(erc20).transferFrom(msg.sender, address(this), 10);
+        IERC20(erc20).transferFrom(msg.sender, address(this), 1 * (10**18));
         
         _mint(msg.sender, newItemId);
         _tokenIds.increment();

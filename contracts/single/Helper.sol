@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >= 0.8;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
-abstract contract Helper is Ownable {
-    using Address for address;
+abstract contract Helper is OwnableUpgradeable {
+    using AddressUpgradeable for address;
 
     address public gateway;
     address public target;
@@ -34,7 +34,7 @@ abstract contract Helper is Ownable {
         isRunning = false;
     }
 
-    function initialize(address _gateway, address _target) external  {
+    function initialize(address _gateway, address _target, bool _shouldTransferBack) external initializer {
         require(gateway == address(0), "Already init");
         require(_target.isContract(), "_target should be a contract");
         // address zero is returned if no context is set, but the values used in storage
@@ -48,6 +48,8 @@ abstract contract Helper is Ownable {
         });
         gateway = _gateway;
         target = _target;
+        shouldTransferBack = _shouldTransferBack;
+        __Ownable_init();
     }
 
     function executeCallId() public view returns(bytes32) {

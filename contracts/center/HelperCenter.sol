@@ -2,17 +2,18 @@
 pragma solidity >= 0.8;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
-contract HelperCenter is Ownable {
-    using Address for address;
+
+contract HelperCenter is OwnableUpgradeable {
+    using AddressUpgradeable for address;
 
     address public gateway;
     bool shouldTransferBack;
     bool isRunning;
-    bytes4 processCallData = bytes4(keccak256("processCallData(bytes)"));
-    bytes4 afterTx = bytes4(keccak256("afterTxCallData(bytes)"));
+    bytes4 constant processCallData = bytes4(keccak256("processCallData(bytes)"));
+    bytes4 constant afterTx = bytes4(keccak256("afterTxCallData(bytes)"));
     mapping(bytes32 => address) helper;
     ExecuteDataContext internal context;
 
@@ -37,7 +38,7 @@ contract HelperCenter is Ownable {
         isRunning = false;
     }
 
-    function initialize(address _gateway) external  {
+    function initialize(address _gateway, bool _shoulTransferBack) external initializer {
         require(gateway == address(0), "Already init");
         // address zero is returned if no context is set, but the values used in storage
         // are non-zero to save users some gas (as storage refunds are usually maxed out)
@@ -49,6 +50,8 @@ contract HelperCenter is Ownable {
             receiver: ADDRESS_DEFAULT_CONTEXT
         });
         gateway = _gateway;
+        shouldTransferBack = _shoulTransferBack;
+        __Ownable_init();
     }
 
     function executeCallId() public view returns(bytes4) {
@@ -162,7 +165,7 @@ contract HelperCenter is Ownable {
             require(success, "afterTx execute failed");
             (shouldAfterCall, afterCallerAddress, callHookData) = abi.decode(afterCallerData, (bool, address, bytes));
 
-            //notice check if needed execute after call
+            //@notice check if needed execute after call
             if(shouldAfterCall) {
                 (success, returnData) = afterCallerAddress.call(callHookData);
                 return success;

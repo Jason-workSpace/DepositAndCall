@@ -1,0 +1,181 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    "txHash": "0x30a8be715e2e0cba58abf7350d0bf84f8aefa8c5a237aba6959c0584f5d9f36e"
+  },
+  "proxies": [
+    {
+      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "txHash": "0x89229e40aa4cbc2533b4958da746392a6fd495ee87740774b80fd2dfb4cc7baa",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "6d93618c1145ee3db2849bca9a4b5d5e5fff675830f0e7ad3450e0fa1920252e": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x43ba071ed5daa070b11340f4c11c108f136b0271cb8578d4f8a3cb43216feb69",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "label": "gateway",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_address",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:10"
+          },
+          {
+            "label": "target",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_address",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:11"
+          },
+          {
+            "label": "isRunning",
+            "offset": 20,
+            "slot": "102",
+            "type": "t_bool",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:12"
+          },
+          {
+            "label": "shouldTransferBack",
+            "offset": 21,
+            "slot": "102",
+            "type": "t_bool",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:13"
+          },
+          {
+            "label": "helper",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_bytes32,t_address)",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:14"
+          },
+          {
+            "label": "context",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_struct(ExecuteDataContext)3415_storage",
+            "contract": "Helper",
+            "src": "contracts\\single\\Helper.sol:15"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_bytes4": {
+            "label": "bytes4",
+            "numberOfBytes": "4"
+          },
+          "t_mapping(t_bytes32,t_address)": {
+            "label": "mapping(bytes32 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(ExecuteDataContext)3415_storage": {
+            "label": "struct Helper.ExecuteDataContext",
+            "members": [
+              {
+                "label": "callId",
+                "type": "t_bytes4",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "token",
+                "type": "t_address",
+                "offset": 4,
+                "slot": "0"
+              },
+              {
+                "label": "to",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "receiver",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}
