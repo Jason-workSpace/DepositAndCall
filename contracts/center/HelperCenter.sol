@@ -90,15 +90,16 @@ contract HelperCenter is OwnableUpgradeable {
         emit ShouldTransferBackChanged(block.number, _shouldTransferBack);
     }
 
-    function onTokenTransfer(address from, uint256 amount, bytes memory data) public checkRunning returns (bool success) {
+    function onTokenTransfer(address token, address from, uint256 amount, bytes memory data) public checkRunning returns (bool success) {
 
         require(gateway == msg.sender, "Only gateway can call");
         require(from != address(0), "Not right address");
 
         ExecuteDataContext memory prevContext = context;
+        context.token = token;
         bytes memory callPredata;
         bytes32 helperId;
-        (helperId, context.callId, context.token, context.to, context.receiver, callPredata) = abi.decode(data,(bytes32, bytes4, address, address, address,bytes));
+        (helperId, context.callId, context.to, context.receiver, callPredata) = abi.decode(data,(bytes32, bytes4, address, address,bytes));
         
         require(context.to.isContract(), "to is not contract");
         

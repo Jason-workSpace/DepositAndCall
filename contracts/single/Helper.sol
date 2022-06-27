@@ -84,6 +84,7 @@ abstract contract Helper is OwnableUpgradeable {
 
     //@dev we shoud isContract
     function onTokenTransfer(
+        address token,
         address from, 
         uint256 amount, 
         bytes memory data
@@ -93,7 +94,8 @@ abstract contract Helper is OwnableUpgradeable {
         bytes memory callHookdata;
 
         //@notice fill out context
-        (context.callId, context.token, context.to, context.receiver, callHookdata) = abi.decode(data, (bytes4, address, address, address, bytes));
+        context.token = token;
+        (context.callId, context.to, context.receiver, callHookdata) = abi.decode(data, (bytes4, address, address, bytes));
 
         uint256 preBalance;
         uint256 afterBalance;
