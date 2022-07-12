@@ -10,8 +10,8 @@ contract HelperCenter is OwnableUpgradeable {
     using AddressUpgradeable for address;
 
     address public gateway;
-    bool shouldTransferBack;
-    bool isRunning;
+    bool public shouldTransferBack;
+    bool public isRunning;
     bytes4 constant processCallData = bytes4(keccak256("processCallData(bytes)"));
     bytes4 constant afterTx = bytes4(keccak256("afterTxCallData(bytes)"));
     mapping(bytes32 => address) helper;
