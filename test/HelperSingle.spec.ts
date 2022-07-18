@@ -17,14 +17,13 @@ describe("HelperSingle", function () {
 
   function setCallData(
     selector: string,
-    tokenAddress: string,
     targetAddress: string,
     receiver: string,
     data: string
   ): string{
     let abiCoder = new ethers.utils.AbiCoder();
     
-    return abiCoder.encode(["bytes4", "address", "address", "address", "bytes"],[selector, tokenAddress, targetAddress, receiver, data]);
+    return abiCoder.encode(["bytes4", "address", "address", "bytes"],[selector, targetAddress, receiver, data]);
   }
 
   before(async function() {
@@ -55,19 +54,19 @@ describe("HelperSingle", function () {
 
   it("should revert when not the right function name encode", async function () {
     let selector = ethers.utils.hexDataSlice(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("buyMyItem()")),0,4);
-    let calldata = setCallData(selector, token.address, nft.address, accounts[3].address, "0x");
+    let calldata = setCallData(selector, nft.address, accounts[3].address, "0x");
     await expect(testGateway.execute(helper.address, calldata, ethers.utils.parseEther("1"))).to.be.revertedWith("Not find the related call id");
   }) 
 
   it("create tx", async function () {
     let selector = ethers.utils.hexDataSlice(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("buyItem()")),0,4);
-    let calldata = setCallData(selector, token.address, nft.address, accounts[3].address, "0x");
+    let calldata = setCallData(selector, nft.address, accounts[3].address, "0x");
     expect(await testGateway.execute(helper.address, calldata, ethers.utils.parseEther("1"))).to.emit(helper, "ExecuteSuccess");
   });
 
   it("should get the surplus token back when shouldTransferBack is true", async function () {
     let selector = ethers.utils.hexDataSlice(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("buyItem()")),0,4);
-    let calldata = setCallData(selector, token.address, nft.address, accounts[3].address, "0x");
+    let calldata = setCallData(selector, nft.address, accounts[3].address, "0x");
     let beforeBalance = ethers.BigNumber.from(await token.balanceOf(accounts[3].address));
     expect(await testGateway.execute(helper.address, calldata, ethers.utils.parseEther("2"))).to.emit(testGateway, "ExecuteSuccess");
     let afterBalance = ethers.BigNumber.from(await token.balanceOf(accounts[3].address));
@@ -77,7 +76,7 @@ describe("HelperSingle", function () {
   it("should not get the surplus token back when shouldTransferBack is false", async function () {
     let selector = ethers.utils.hexDataSlice(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("buyItem()")),0,4);
     await expect(helper.connect(accounts[0]).changeTransferBackSetting(false)).to.emit(helper,"ShouldTransferBackChanged");
-    const calldata = setCallData(selector, token.address, nft.address, accounts[3].address, "0x");
+    const calldata = setCallData(selector, nft.address, accounts[3].address, "0x");
     const beforeBalance = ethers.BigNumber.from(await token.balanceOf(accounts[3].address));
     const contractBeforeBalance = ethers.BigNumber.from(await token.balanceOf(helper.address));
     expect(await testGateway.execute(helper.address, calldata, ethers.utils.parseEther("2"))).to.emit(testGateway, "ExecuteSuccess");

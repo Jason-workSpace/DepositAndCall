@@ -24,7 +24,7 @@ describe("HelperCenter", function () {
   function setCallData(helperId: string): string{
     let abiCoder = new ethers.utils.AbiCoder();
     let selector =  ethers.utils.hexDataSlice(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("buyItem()")),0,4);
-    return abiCoder.encode(["bytes32","bytes4", "address", "address", "address", "bytes"],[helperId, selector, token.address, nft.address, accounts[3].address, "0x"]);
+    return abiCoder.encode(["bytes32","bytes4", "address", "address", "bytes"],[helperId, selector, nft.address, accounts[3].address, "0x"]);
   }
 
   before(async function() {

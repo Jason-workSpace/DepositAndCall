@@ -11,6 +11,6 @@ contract TestCenterGateway {
     }
     function execute(address to, bytes calldata callHookData, uint256 amount) public {
         IERC20(erc20).transfer(to, amount);
-        HelperCenter(to).onTokenTransfer(msg.sender, amount, callHookData);
+        HelperCenter(to).onTokenTransfer(erc20, msg.sender, amount, callHookData);
     }
 }
