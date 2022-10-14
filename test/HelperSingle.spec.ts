@@ -83,6 +83,7 @@ describe("HelperSingle", function () {
     const afterBalance = ethers.BigNumber.from(await token.balanceOf(accounts[3].address));
     const contractAfterBalance = ethers.BigNumber.from(await token.balanceOf(helper.address));
     expect(afterBalance).equal(beforeBalance);
+    
     expect(contractAfterBalance).gt(contractBeforeBalance);
   })
 });
